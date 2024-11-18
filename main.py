@@ -38,6 +38,7 @@ if process_url_clicked:
     )
     main_placeholder.text("Text Splitter...Started...✅✅✅")
     docs = text_splitter.split_documents(data)
+    
     # create embeddings and save it to FAISS index
     embeddings = OpenAIEmbeddings()
     vectorstore_openai = FAISS.from_documents(docs, embeddings)
@@ -55,7 +56,6 @@ if query:
             vectorstore = pickle.load(f)
             chain = RetrievalQAWithSourcesChain.from_llm(llm=llm, retriever=vectorstore.as_retriever())
             result = chain({"question": query}, return_only_outputs=True)
-            # result will be a dictionary of this format --> {"answer": "", "sources": [] }
             st.header("Answer")
             st.write(result["answer"])
 
